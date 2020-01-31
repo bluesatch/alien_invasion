@@ -1,10 +1,11 @@
 # create pygame window
 
-import sys
-
 import pygame
 
 from settings import Settings
+from ship import Ship
+
+import game_functions as gf # game_functions imports sys
 
 """
 First, we import the sys and pygame modules. The pygame module con- tains the functionality needed to make a game. We’ll use the sys module to exit the game when the player quits.
@@ -27,6 +28,8 @@ def run_game():
 
     pygame.display.set_caption("Alien Invasion")
 
+    #Make a ship
+    ship = Ship(ai_settings, screen)    
     # Set the background color
 
 #     bg_color = (230, 230, 230)
@@ -37,14 +40,13 @@ def run_game():
     while True:
 
         # Watch for keyboard and mouse events
+        gf.check_events(ship)
+        ship.update()
+        gf.update_screen(ai_settings, screen, ship)
 
-        screen.fill(ai_settings.bg_color)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
+        
 
-        #Make the most recently drawn screen visible
-        pygame.display.flip()
+        
 
 run_game()
