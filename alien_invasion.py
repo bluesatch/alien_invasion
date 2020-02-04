@@ -2,8 +2,11 @@
 
 import pygame
 
+from pygame.sprite import Group
+
 from settings import Settings
 from ship import Ship
+
 
 import game_functions as gf # game_functions imports sys
 
@@ -37,12 +40,23 @@ def run_game():
 
     # Set main loop
 
+    #Make group to store bullets in
+    bullets = Group()
+
     while True:
 
         # Watch for keyboard and mouse events
-        gf.check_events(ship)
+        gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        gf.update_screen(ai_settings, screen, ship)
+        gf.update_screen(ai_settings, screen, ship, bullets)
+
+        bullets.update()
+
+        for bullet in bullets.copy():
+                if bullet.rect.bottom <= 0:
+                        bullets.remove(bullet)
+        print(len(bullets))
+        gf.update_screen(ai_settings, screen, ship, bullets)
 
 
         
